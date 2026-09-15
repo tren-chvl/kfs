@@ -1,6 +1,4 @@
-#ifndef GDT_h
-#define GDT_h
-
+#include "stdint.h"
 
 struct gdt_entry_struct
 {
@@ -19,11 +17,10 @@ struct gdt_ptr_struct
     uint16_t limit;
     unsigned int base;
 
-} __attribute__((packed))
+} __attribute__((packed));
 
 
 void initGdt();
 void setGdtGate(uint32_t num, uint32_t base, uint32_t limit, uint8_t acces, uint8_t gran);
-
-
-#endif
+void dump_stack(void);
+void print_hex(uint32_t value);
