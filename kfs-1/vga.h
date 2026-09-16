@@ -2,6 +2,7 @@
 #include "stdint.h"
 
 #define COLOR8_BLACK 0
+#define COLOR8_CYAN 3
 #define COLOR8_GREY 7
 
 #define width 80
