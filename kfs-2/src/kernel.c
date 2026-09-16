@@ -8,6 +8,8 @@ void kmain(void)
 {
 	initGdt();
 	print("GDT is done!\n");
-	dump_stack();
+	print("CS = ");
+	print_hex(read_cs());
+	print("\n");
+	printk();
 }
-

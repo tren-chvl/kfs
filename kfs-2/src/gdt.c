@@ -1,7 +1,7 @@
 #include "gdt.h"
 #include "stdint.h"
 
-extern void gdt_flush(addr_t);
+extern void gdt_flush(uint32_t);
 
 struct gdt_entry_struct gdt_entries[5];
 struct gdt_ptr_struct gdt_ptr;
@@ -33,7 +33,7 @@ void setGdtGate(uint32_t num, uint32_t base, uint32_t limit, uint8_t acces, uint
 }
 
 
-void dump_stack(void)
+void printk(void)
 {
 	uint32_t esp;
 	asm volatile("mov %%esp, %0" : "=r"(esp));

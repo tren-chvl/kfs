@@ -1,4 +1,5 @@
 #include "stdint.h"
+#include "vga.h"
 
 struct gdt_entry_struct
 {
@@ -22,5 +23,6 @@ struct gdt_ptr_struct
 
 void initGdt();
 void setGdtGate(uint32_t num, uint32_t base, uint32_t limit, uint8_t acces, uint8_t gran);
-void dump_stack(void);
+void printk(void);
 void print_hex(uint32_t value);
+uint16_t read_cs();

@@ -11,13 +11,16 @@ CFLAGS = -m32 -fno-stack-protector -fno-builtin -nostdlib -nodefaultlibs -fno-pi
 ASFLAGS = -f elf32
 LDFLAGS = -m elf_i386 -T linker.ld
 
-SRC = src/kernel.c src/vga.c src/gdt.c
-OBJ = $(SRC:.c=.o) src/gdt.s.o src/boot.o
+SRC = src/kernel.c src/vga.c src/gdt.c test.c
+OBJ = src/boot.o src/gdt.s.o read_gdt.o $(SRC:.c=.o)
 
 all: clean $(TARGET) iso
 
 clean:
 	rm -f *.o src/*.o src/gdt.s.o src/boot.o
+
+src/read_gdtr.o: read_gdtr.s
+	$(AS) -f elf32 read_gdtr.s -o read_gdtr.o
 
 src/boot.o: src/boot.s
 	$(AS) -f elf32 src/boot.s -o src/boot.o
