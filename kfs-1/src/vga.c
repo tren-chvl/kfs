@@ -1,4 +1,4 @@
-#include "vga.h"
+#include "../includes/vga.h"
 
 uint16_t column = 0;
 uint16_t line = 0;

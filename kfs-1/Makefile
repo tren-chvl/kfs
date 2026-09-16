@@ -4,7 +4,7 @@ LD      = ld
 GRUBMK  = grub-mkrescue
 QEMU    = qemu-system-i386
 
-CFLAGS  = -m32 -fno-stack-protector -fno-builtin -ffreestanding
+CFLAGS  = -m32 -fno-stack-protector -fno-builtin -ffreestanding -Iincludes
 LDFLAGS = -m elf_i386 -T linker.ld
 
 KERNEL  = kernel.bin
@@ -17,26 +17,20 @@ all: $(ISO)
 $(KERNEL): boot.o kernel.o vga.o linker.ld
 	$(LD) $(LDFLAGS) -o $@ boot.o kernel.o vga.o
 
-boot.o: boot.s
+boot.o: src/boot.s
 	$(AS) -f elf32 $< -o $@
 
-kernel.o: kernel.c vga.h stdint.h
+kernel.o: src/kernel.c includes/vga.h includes/stdint.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-vga.o: vga.c vga.h stdint.h
+vga.o: src/vga.c includes/vga.h includes/stdint.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 iso: $(ISO)
 
 $(ISO): $(KERNEL) iso/boot/grub/grub.cfg
 	cp $(KERNEL) iso/boot/kernel
-	$(GRUBMK) \
-		--install-modules="multiboot" \
-		--locales="" \
-		--fonts="" \
-		--themes="" \
-		-o $@ \
-		iso
+	$(GRUBMK) --install-modules="multiboot" --locales="" --fonts="" --themes="" -o $@ iso
 
 run: $(ISO)
 	$(QEMU) -cdrom $(ISO)
