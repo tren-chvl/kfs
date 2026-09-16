@@ -30,7 +30,13 @@ iso: $(ISO)
 
 $(ISO): $(KERNEL) iso/boot/grub/grub.cfg
 	cp $(KERNEL) iso/boot/kernel
-	$(GRUBMK) -o $@ iso
+	$(GRUBMK) \
+		--install-modules="multiboot" \
+		--locales="" \
+		--fonts="" \
+		--themes="" \
+		-o $@ \
+		iso
 
 run: $(ISO)
 	$(QEMU) -cdrom $(ISO)
